@@ -1,0 +1,127 @@
+<odoo>
+    <data>
+        <!-- Form view definition for the Customer Repository -->
+        <record id="view_customer_repository_form" model="ir.ui.view">
+            <field name="name">customer.repository.form</field>
+            <field name="model">customer.repository</field>
+            <field name="arch" type="xml">
+                <form string="Customer Repository">
+                    <button string="Github Token" name="github_info" type="object" class="oe_highlight"/>
+                    <sheet>
+                        <group>
+                            <field name="name" placeholder="You can find your github user name by logging into your account profile"/>
+                            <field name="github_token" placeholder="If you don't know how create a github token, press the Github Token button"/>
+                            <field name="client_id" readonly='true'/>
+                        </group>
+                        <button name="fetch_github_info" string="Fetch GitHub Information" type="object" class="oe_highlight"/>
+                        <notebook>
+                            <page string="Information">
+                                <field name="info_ids">
+                                    <tree string="Info">
+                                        <field name="repository_name"/>
+                                        <field name="description"/>
+                                        <field name="url"/>
+                                        <field name="author"/>
+                                        <field name="last_update"/>
+                                        <field name="status"/>
+                                        <button name="link_to_last_commit" string="Link the last commit" type="object" class="oe_highlight"/> 
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_repository_info_form" model="ir.ui.view">
+            <field name="name">repository.info.form</field>
+            <field name="model">repository.info</field>
+            <field name="arch" type="xml">
+                <form string="Repository information">
+                    <sheet>
+                        <group>
+                            <field name="repository_name"/>
+                            <field name="description"/>
+                            <field name="url"/>
+                            <field name="author"/>
+                            <field name="last_update"/>
+                            <field name="status"/>
+                            <field name="major_contributor"/>
+                        </group>
+                        <button name="fetch_github_commit" string="Fetch GitHub commmit" type="object" class="oe_highlight"/>
+                        <button name="create_csv" string="Generate CSV Report" type="object" class="oe_highlight"/>
+                        <button name="%(action_report_commit)d" string="Generate Commit Report" type="action" class="oe_highlight"/>
+                        <notebook>
+                            <page string="Commits">
+                                <field name="commit_ids">
+                                    <tree string="Commits" decoration-success="color == True" decoration-info="color == False">
+                                        <field name="commit_hash"/>
+                                        <field name="author"/>
+                                        <field name="date"/>
+                                        <field name="time_elapsed"/>
+                                        <field name="message"/>
+                                        <field name="url_commit"/>
+                                        <field name="color" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_inherit_res_partner" model="ir.ui.view">
+        <field name="name">res.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page" position="inside">
+                <notebook>   
+                    <page string="Repositories">
+                        <field name="repos_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="github_token"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="info_ids">
+                                        <tree>
+                                            <field name="repository_name"/>
+                                            <field name="url"/>
+                                            <field name="last_update"/>
+                                            <field name="status"/>
+                                        </tree>
+                                        <form>
+                                            <group>
+                                                <field name="repository_name"/>
+                                                <field name="url"/>
+                                                <field name="last_update"/>
+                                                <field name="status"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </notebook> 
+            </xpath>
+        </field>
+    </record>
+
+        <!-- Action definition to open the Customer Repository -->
+        <record id="action_customer_repository" model="ir.actions.act_window">
+            <field name="name">Customer Repository</field>
+            <field name="res_model">customer.repository</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu items definition -->
+        <menuitem id="menu_customer_repository_root" name="Root Menu" sequence="1"/>
+        <menuitem id="menu_customer_repository" name="Repositories" parent="menu_customer_repository_root" action="action_customer_repository"/>
+    </data>
+</odoo>
