@@ -196,13 +196,9 @@ class RepositoryInfo(models.Model):
         csv_content = 'commit_hash,author,date,message\n'
         for commit in self.commit_ids:
             csv_content += f'{commit.commit_hash},{commit.author},{commit.date},{commit.message}\n'
-        print(csv_content)
 
         self.csv_data = base64.b64encode(csv_content.encode('utf-8'))
         filename = 'repository_commits.csv'
-
-        print("CSV Data Length:", len(self.csv_data))
-        print("Filename:", filename)
 
         # Return action to download the CSV file
         return {
