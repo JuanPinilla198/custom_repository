@@ -106,4 +106,4 @@ Se podrá tener acceso a la información pero no podrá ejecutar acciones difere
 
 ![Vista de usuario - Crear](./images/user-create-view.png)
 ![Vista de usuario - Buscar](./images/user-fetch-view.png)
-![Vista de usuario - Commits](./images/user-commit-view.png)
+![Vista de usuario - Commits](./images/user-commits-view.png)
